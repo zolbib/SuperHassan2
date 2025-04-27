@@ -32,7 +32,7 @@ void Menu::set_values() {
 
     options = { "Super Hassan II", "Play", "Options", "About", "Quit" };
     texts.resize(options.size());
-    coords = { {540,40},{560,191},{550,282},{560,370},{570,457} };
+    coords = { {460,40},{600,191},{610,282},{620,370},{630,457} };
     sizes = { 40,36,32,32,32 };
 
     for (size_t i = 0; i < texts.size(); ++i) {

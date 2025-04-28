@@ -4,7 +4,7 @@
 Game::Game() : window(sf::VideoMode(1280, 720), "Super Hassan II") {
     window.setFramerateLimit(60);
 
-    if (!playerTexture.loadFromFile("player_spritesheet.png")) {
+    if (!playerTexture.loadFromFile("StandingSprite.png")) {
         std::cerr << "Failed to load player sprite!" << std::endl;
     }
 

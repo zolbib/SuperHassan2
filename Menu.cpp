@@ -26,8 +26,8 @@ void Menu::set_values() {
 
     sf::Vector2u windowSize = window.getSize();
     sf::Vector2u textureSize = image.getSize();
-    float scaleX = static_cast<float>(windowSize.x) / textureSize.x;
-    float scaleY = static_cast<float>(windowSize.y) / textureSize.y;
+    float scaleX = (windowSize.x) / textureSize.x;
+    float scaleY = (windowSize.y) / textureSize.y;
     bg.setScale(scaleX, scaleY);
 
     options = { "Super Hassan II", "Play", "Options", "About", "Quit" };
@@ -103,7 +103,7 @@ bool Menu::run_menu() {
         loop_events();
         draw_all();
 
-        if (theselect && pos == 1) { // "Play" selected
+        if (theselect && pos == 1) {
             window.close();
             return true;
         }

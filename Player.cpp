@@ -1,5 +1,7 @@
 #include "Player.h"
 
+using namespace sf;
+
 
 Player::Player(const std::string& nom, sf::Texture& texture)
     : Nom(nom), xp(0), NbVie(3), Degats(10), isOnGround(false), textureRef(texture),
@@ -56,11 +58,11 @@ void Player::Animation(float deltaTime) {
     timer += deltaTime;
 
     if (velocity.x == 0 && isOnGround) {
-        currentFrameY = 0; // idle row
+        currentFrameY = 0; 
     }
 
     if (timer >= 0.15f) {
-        currentFrameX = (currentFrameX + 1) % 3; // 3 frames per row
+        currentFrameX = (currentFrameX + 1) % 3; 
 
         IntRect.left = currentFrameX * 32;
         IntRect.top = currentFrameY * 42;

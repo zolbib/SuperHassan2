@@ -1,40 +1,45 @@
 #include "Game.h"
 #include <iostream>
 
-Game::Game() : window(sf::VideoMode(1280, 720), "Super Hassan II") {
+Game::Game(sf::RenderWindow& win) : window(win) {
     window.setFramerateLimit(60);
 
-    if (!playerTexture.loadFromFile("StandingSprite.png")) {
+    if (!playerTexture.loadFromFile("SpritePlayer.png")) {
         std::cerr << "Failed to load player sprite!" << std::endl;
     }
 
-    player = new Player("Arab Hero", playerTexture); // dynamically allocate
+    player = new Player("Arab Hero", playerTexture);
 
-    ground.setSize(sf::Vector2f(800, 50));
+    ground.setSize(sf::Vector2f(800.f, 50.f));
     ground.setFillColor(sf::Color::Green);
     ground.setPosition(0.f, 550.f);
 }
 
-void Game::run() {
+bool Game::run() {
+    sf::Clock clock;
+
     while (window.isOpen()) {
-        processEvents();
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();
+
+            if (event.type == sf::Event::KeyPressed) {
+                if (event.key.code == sf::Keyboard::Escape)
+                    return false; // Return to menu
+                if (event.key.code == sf::Keyboard::Up ||
+                    event.key.code == sf::Keyboard::W ||
+                    event.key.code == sf::Keyboard::Space)
+                    player->Jump();
+            }
+        }
+
         float dt = clock.restart().asSeconds();
         update(dt);
         render();
     }
 
-    delete player; // cleanup
-}
-
-void Game::processEvents() {
-    sf::Event event;
-    while (window.pollEvent(event)) {
-        if (event.type == sf::Event::Closed || event.key.code == sf::Keyboard::Escape)
-            window.close();
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-            player->Jump();
-    }
+    return false;
 }
 
 void Game::update(float dt) {

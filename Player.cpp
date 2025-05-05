@@ -5,22 +5,25 @@ Player::Player(const std::string& nom, sf::Texture& texture)
     currentFrameX(0), currentFrameY(0)
 {
     SpriteSheet.setTexture(textureRef);
-    IntRect = sf::IntRect(0, 0, 128, 128);
+    IntRect = sf::IntRect(0, 0, 256, 256);
     SpriteSheet.setTextureRect(IntRect);
-    SpriteSheet.setOrigin(64.f, 64.f); // Fix flipping issue d zb
+    
+
+    SpriteSheet.setOrigin(128.f, 128.f); // Fix flipping issue d zb
     SpriteSheet.setPosition(100.f, 100.f);
+
     velocity = sf::Vector2f(0.f, 0.f);
 }
 
 void Player::Move(float deltaTime) {
-    float speed = 100.f;
+    float speed = 150.f;
     velocity.x = 0.f;
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)||sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         velocity.x -= speed;
         currentFrameY = 0; // walking left row
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)||sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
         velocity.x += speed;
         currentFrameY = 0; // walking right row
     }
@@ -35,7 +38,7 @@ void Player::Move(float deltaTime) {
 
 void Player::Jump() {
     if (isOnGround) {
-        velocity.y = -300.f;
+        velocity.y = -425.f;
         isOnGround = false;
         currentFrameY = 0; // jumping row
     }
@@ -57,23 +60,35 @@ void Player::update(float deltaTime) {
 }
 
 void Player::Animation(float deltaTime) {
-    //static float timer = 0.f;
-    //timer += deltaTime;
+    static float timer = 0.f;
+    timer += deltaTime;
 
-    //if (velocity.x == 0 && isOnGround) {
-    //    currentFrameY = 0; // idle row
-    //}
+    int maxFrames = 6;  // Default = idle
 
-    //if (timer >= 0.15f) {
-    //    currentFrameX = (currentFrameX + 1) % 3; // 3 frames per row
+    if (velocity.x == 0 && isOnGround) {
+        currentFrameY = 0; // Idle row
+        maxFrames = 6;
+    }
+    else if (velocity.x != 0 && isOnGround) {
+        currentFrameY = 1; // Walking row
+        maxFrames = 8;
+    }
+    else if (!isOnGround) {
+        currentFrameY = 2; // Jump/fall (optional: reuse run)
+        maxFrames = 8;
+    }
 
-    //    IntRect.left = currentFrameX * 128;
-    //    IntRect.top = currentFrameY * 128;
+    if (timer >= 0.1f) {
+        currentFrameX = (currentFrameX + 1) % maxFrames;
 
-    //    SpriteSheet.setTextureRect(IntRect);
-    //    timer = 0.f;
-    //}
+        IntRect.left = currentFrameX * 256;
+        IntRect.top = currentFrameY * 256;
+
+        SpriteSheet.setTextureRect(IntRect);
+        timer = 0.f;
+    }
 }
+
 
 void Player::Hit(int damage) {
     NbVie -= damage;

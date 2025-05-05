@@ -4,12 +4,15 @@
 
 class Game {
 public:
-    Game();
-    void run();
+    Game(sf::RenderWindow& window);
+    bool run();
 
 private:
-    sf::RenderWindow window;
+
     sf::Texture playerTexture;
+    sf::RenderWindow& window;
+
+
     Player* player = nullptr; // Use pointer
 
     sf::RectangleShape ground;

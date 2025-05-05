@@ -6,7 +6,7 @@
 
 class Menu {
 public:
-    Menu();
+    Menu(sf::RenderWindow& win);
     bool run_menu();  
 
 private:
@@ -14,7 +14,7 @@ private:
     void loop_events();
     void draw_all();
 
-    sf::RenderWindow window;
+    sf::RenderWindow& window; // shared reference
     sf::Font font;
     sf::Texture image;
     sf::Sprite bg;

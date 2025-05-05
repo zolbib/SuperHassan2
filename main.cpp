@@ -2,10 +2,12 @@
 #include "Game.h"
 
 int main() {
-    Menu menu;
+    sf::RenderWindow window(sf::VideoMode(1280, 720), "Super Hassan II");
+    Menu menu(window);
+    Game game(window);
 
     if (menu.run_menu()) {
-        Game game;
+        
         game.run();
     }
 
